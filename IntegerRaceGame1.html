@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+    span.s2 {font: 12.0px 'Apple Color Emoji'; font-kerning: none}
+    span.s3 {font: 12.0px 'Lucida Grande'; font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;Integer Quest &amp; Coordinate Challenge&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body { font-family: Arial, sans-serif; background: #2c3e50; color: #fff; text-align: center; margin: 0; padding: 20px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#game-container { max-width: 680px; margin: 0 auto; background: #34495e; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#track { position: relative; height: 60px; background: #7f8c8d; border-radius: 30px; margin: 20px 0; overflow: hidden; border: 3px solid #ecf0f1; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#player { position: absolute; top: 10px; left: 10px; width: 40px; height: 40px; background: #e74c3c; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; transition: left 0.4s ease; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#finish { position: absolute; right: 15px; top: 12px; font-size: 24px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.question-box { font-size: 22px; font-weight: bold; margin: 15px 0; background: #1abc9c; padding: 15px; border-radius: 8px; color: #111; line-height: 1.4; }</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Wager Section Styles */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#wager-section { background: #e67e22; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#wager-section h3 { margin: 0 0 10px 0; color: #fff; font-size: 24px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#hint-box { font-size: 18px; background: #d35400; padding: 10px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>input[type="number"], input[type="text"], select { font-size: 20px; padding: 8px; width: 180px; text-align: center; border-radius: 6px; border: none; margin: 5px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button { font-size: 20px; padding: 8px 18px; margin: 5px; border-radius: 6px; border: none; background: #3498db; color: white; cursor: pointer; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button:hover { background: #2980b9; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button:disabled { background: #95a5a6; cursor: not-allowed; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#next-btn { background: #2ecc71; margin-top: 15px; display: none; margin-left: auto; margin-right: auto; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#next-btn:hover { background: #27ae60; }</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#stats { font-size: 18px; margin-top: 15px; font-weight: bold; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>#feedback { font-size: 20px; font-weight: bold; min-height: 30px; margin-top: 15px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>canvas { background: #ffffff; border-radius: 8px; border: 2px solid #ecf0f1; margin: 10px auto; display: block; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div id="game-container"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;h2 id="game-title"&gt;</span><span class="s2">🏃</span><span class="s1"> Part 1: Integer Race Quest&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;p id="game-subtitle"&gt;Answer correctly to move your player to the finish line!&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">  </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="track"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="player"&gt;</span><span class="s2">🏃</span><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="finish"&gt;</span><span class="s2">🏁</span><span class="s1">&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- Wager Box for Part 2 --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="wager-section" style="display: none;"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;h3&gt;</span><span class="s2">💰</span><span class="s1"> Place Your Wager!&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="hint-box"&gt;</span><span class="s2">💡</span><span class="s1"> Hint: Loading topic...&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;p&gt;How many points do you want to risk on this question?&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;input type="number" id="wager-input" min="0" value="10"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;br&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;button onclick="confirmWager()"&gt;Lock In Wager &amp; Reveal Question&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="question-box" id="question"&gt;Loading...&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">  </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;canvas id="gridCanvas" width="260" height="260" style="display: none;"&gt;&lt;/canvas&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;form id="quiz-form" onsubmit="checkAnswer(event)"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="input-container"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;input type="text" id="answer" autocomplete="off" autofocus required&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;button type="submit" id="submit-btn"&gt;Submit Answer&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/form&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="feedback"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;button id="next-btn" onclick="nextQuestion()"&gt;Next Question </span><span class="s3">→</span><span class="s1">&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div id="stats"&gt;Score: &lt;span id="score"&gt;0&lt;/span&gt; pts | Question: &lt;span id="q-num"&gt;1&lt;/span&gt;/55&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Part 1 Questions (1 to 50)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const part1Questions = [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "-12 - 7", a: "-19", type: "number"}, {q: "-8 - 14", a: "-22", type: "number"}, {q: "-15 + (-3)", a: "-18", type: "number"}, {q: "13 - (-15)", a: "28", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "7 + (-13)", a: "-6", type: "number"}, {q: "-112 ÷ (-8)", a: "14", type: "number"}, {q: "-140 ÷ (-10)", a: "14", type: "number"}, {q: "-14 × (-1)", a: "14", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "-11 - (-5)", a: "-6", type: "number"}, {q: "99 ÷ 11", a: "9", type: "number"}, {q: "-13 + (-14)", a: "-27", type: "number"}, {q: "15 - 4", a: "11", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "13 + 5", a: "18", type: "number"}, {q: "15 - (-7)", a: "22", type: "number"}, {q: "20 ÷ (-10)", a: "-2", type: "number"}, {q: "-10 + 3", a: "-7", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "-52 ÷ 4", a: "-13", type: "number"}, {q: "11 × (-8)", a: "-88", type: "number"}, {q: "-5 + 11", a: "6", type: "number"}, {q: "-77 ÷ 7", a: "-11", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "-6 - (-15)", a: "9", type: "number"}, {q: "10 + 14", a: "24", type: "number"}, {q: "7 - 11", a: "-4", type: "number"}, {q: "108 ÷ 9", a: "12", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "-63 ÷ (-7)", a: "9", type: "number"}, {q: "1 - (-14)", a: "15", type: "number"}, {q: "13 + (-9)", a: "4", type: "number"}, {q: "-15 × (-8)", a: "120", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "7 - 10", a: "-3", type: "number"}, {q: "2 × (-11)", a: "-22", type: "number"}, {q: "-40 ÷ (-10)", a: "4", type: "number"}, {q: "4 - (-13)", a: "17", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "7 × (-14)", a: "-98", type: "number"}, {q: "-10 × 2", a: "-20", type: "number"}, {q: "15 - 6", a: "9", type: "number"}, {q: "-3 × (-9)", a: "27", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "-104 ÷ 8", a: "-13", type: "number"}, {q: "-1 × 9", a: "-9", type: "number"}, {q: "45 ÷ 9", a: "5", type: "number"}, {q: "2 - (-9)", a: "11", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "6 + (-14)", a: "-8", type: "number"}, {q: "-7 × (-3)", a: "21", type: "number"}, {q: "-12 × 12", a: "-144", type: "number"}, {q: "13 × (-1)", a: "-13", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "-11 × (-3)", a: "33", type: "number"}, {q: "-4 - (-4)", a: "0", type: "number"}, {q: "9 + (-15)", a: "-6", type: "number"}, {q: "11 - 11", a: "0", type: "number"},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{q: "11 + 12", a: "23", type: "number"}, {q: "4 × 1", a: "4", type: "number"}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Part 2 Questions (51 to 55)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>const part2Questions = [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>hint: "</span><span class="s2">🦅</span><span class="s1"> Word Problem: Altitude &amp; Elevation",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>q: "</span><span class="s2">🦅</span><span class="s1"> An eagle starts at a height of 80 feet above sea level. It dives down 30 feet, then climbs up 15 feet. What is the eagle's new elevation in feet?",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>a: "65",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>type: "number"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>hint: "</span><span class="s2">🌡️</span><span class="s1"> Word Problem: Temperature Changes",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>q: "</span><span class="s2">🌡️</span><span class="s1"> At midnight, the temperature was -8°F. By noon, the temperature rose by 15°F. What was the temperature at noon in °F?",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>a: "7",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>type: "number"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>hint: "</span><span class="s2">📍</span><span class="s1"> Coordinate Plane: Identifying Point Coordinates",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>q: "</span><span class="s2">📍</span><span class="s1"> Look at the plotted point Red 'A' on the coordinate grid. What are its coordinates? (Format as: x,y)",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>a: "3,4",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>type: "point",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>points: [{x: 3, y: 4, label: "A", color: "#e74c3c"}]</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>hint: "</span><span class="s2">🧩</span><span class="s1"> Coordinate Plane: Identifying Quadrants",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>q: "</span><span class="s2">🧩</span><span class="s1"> Look at point Blue 'B' on the grid (-3, -4). Which Quadrant is point B located in?",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>a: "quadrant 3",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>type: "select",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>options: ["Quadrant 1", "Quadrant 2", "Quadrant 3", "Quadrant 4"],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>points: [{x: -3, y: -4, label: "B", color: "#3498db"}]</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>hint: "</span><span class="s2">📐</span><span class="s1"> Coordinate Plane: Graphing Points to Find the Shape",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>q: "</span><span class="s2">📐</span><span class="s1"> Graph and connect these 4 vertices on grid paper: (2,2), (-2,2), (-2,-2), and (2,-2). What geometric shape is formed?",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>a: "square",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>type: "shape"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let currentIndex = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let score = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let currentWager = 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>let isAnswerSubmitted = false;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function loadQuestion() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const totalQ = part1Questions.length + part2Questions.length;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (currentIndex &gt;= totalQ) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('game-container').innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h2&gt;</span><span class="s2">🎉</span><span class="s1"> Tournament Complete!&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;Your grand final score: &lt;strong&gt;${score} points&lt;/strong&gt;&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button onclick="location.reload()"&gt;Play Again&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>isAnswerSubmitted = false;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('q-num').innerText = currentIndex + 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('feedback').innerText = '';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('next-btn').style.display = 'none';</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Check if in Part 1 or Part 2</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (currentIndex &lt; part1Questions.length) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// PART 1</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const qData = part1Questions[currentIndex];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('game-title').innerText = "</span><span class="s2">🏃</span><span class="s1"> Part 1: Integer Race Quest";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('game-subtitle').innerText = "Answer correctly to move your player to the finish line!";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('wager-section').style.display = 'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('gridCanvas').style.display = 'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('question').style.display = 'block';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('question').innerText = qData.q + " = ?";</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>setupInput('number');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// PART 2</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const part2Idx = currentIndex - part1Questions.length;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const qData = part2Questions[part2Idx];</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('game-title').innerText = "</span><span class="s2">🎲</span><span class="s1"> Part 2: High-Stakes Wagering Bonus!";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('game-subtitle').innerText = "Wager points on word problems and coordinate graphs!";</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// HIDE Question, Canvas, and Form while wagering</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('question').style.display = 'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('gridCanvas').style.display = 'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('quiz-form').style.display = 'none';</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// SHOW Wager Box with Hint</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('wager-section').style.display = 'block';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('hint-box').innerText = `</span><span class="s2">💡</span><span class="s1"> ${qData.hint}`;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const wagerInput = document.getElementById('wager-input');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>wagerInput.max = score;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>wagerInput.value = Math.min(20, score);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Move player track for Part 1</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const progressPercent = ((currentIndex + 1) / part1Questions.length) * 85;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('player').style.left = `calc(${Math.min(progressPercent, 85)}% + 10px)`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function setupInput(type, options) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const container = document.getElementById('input-container');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>container.innerHTML = '';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (type === 'select') {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>let selectHtml = `&lt;select id="answer" required&gt;&lt;option value=""&gt;-- Choose Quadrant --&lt;/option&gt;`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>options.forEach(opt =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>selectHtml += `&lt;option value="${opt}"&gt;${opt}&lt;/option&gt;`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>selectHtml += `&lt;/select&gt;`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>container.innerHTML = selectHtml;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>container.innerHTML = `&lt;input type="text" id="answer" autocomplete="off" autofocus required placeholder="${type === 'point' ? 'x,y' : 'Answer'}"&gt;`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('quiz-form').style.display = 'block';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('submit-btn').disabled = false;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function confirmWager() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const wagerVal = parseInt(document.getElementById('wager-input').value, 10);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (isNaN(wagerVal) || wagerVal &lt; 0) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>alert("Please enter a valid wager.");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (wagerVal &gt; score &amp;&amp; score &gt; 0) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>alert("You cannot wager more points than you currently have!");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>currentWager = wagerVal;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Hide wager section</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('wager-section').style.display = 'none';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Reveal Question &amp; Canvas (only if points exist)</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const part2Idx = currentIndex - part1Questions.length;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const qData = part2Questions[part2Idx];</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('question').style.display = 'block';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('question').innerText = qData.q;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (qData.points) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('gridCanvas').style.display = 'block';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>drawGrid(qData.points, qData.shape);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.getElementById('gridCanvas').style.display = 'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>setupInput(qData.type, qData.options);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function checkAnswer(e) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>e.preventDefault();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (isAnswerSubmitted) return;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>isAnswerSubmitted = true;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const userVal = document.getElementById('answer').value.trim().toLowerCase().replace(/\s+/g, '');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const feedback = document.getElementById('feedback');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let isCorrect = false;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let correctAnsDisplay = "";</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (currentIndex &lt; part1Questions.length) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// PART 1 Scoring</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const correctAns = part1Questions[currentIndex].a.toLowerCase();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>correctAnsDisplay = correctAns;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>isCorrect = (userVal === correctAns);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (isCorrect) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>score += 10;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>feedback.style.color = '#2ecc71';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>feedback.innerText = "</span><span class="s2">✨</span><span class="s1"> Correct! +10 pts";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>feedback.style.color = '#e74c3c';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>feedback.innerText = `</span><span class="s2">❌</span><span class="s1"> Incorrect! Correct answer was ${correctAnsDisplay}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>// PART 2 Scoring</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const part2Idx = currentIndex - part1Questions.length;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const qData = part2Questions[part2Idx];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const correctAns = qData.a.toLowerCase().replace(/\s+/g, '');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>correctAnsDisplay = qData.a;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">      </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>isCorrect = (userVal === correctAns);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (isCorrect) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>score += currentWager;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>feedback.style.color = '#2ecc71';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>feedback.innerText = `</span><span class="s2">✨</span><span class="s1"> Correct! You won +${currentWager} pts!`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>score = Math.max(0, score - currentWager);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>feedback.style.color = '#e74c3c';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>feedback.innerText = `</span><span class="s2">❌</span><span class="s1"> Incorrect! You lost -${currentWager} pts. Correct answer: ${correctAnsDisplay}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('submit-btn').disabled = true;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('score').innerText = score;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Show Next Button</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const nextBtn = document.getElementById('next-btn');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>nextBtn.style.display = 'inline-block';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>nextBtn.focus();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function nextQuestion() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>currentIndex++;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>loadQuestion();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>// Draw 2D Coordinate Grid Canvas</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>function drawGrid(points, shape) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const canvas = document.getElementById('gridCanvas');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const ctx = canvas.getContext('2d');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const w = canvas.width;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const h = canvas.height;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const center = w / 2;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const scale = 22; // Pixels per grid unit</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.clearRect(0, 0, w, h);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Draw Grid lines</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.strokeStyle = '#e0e0e0';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.lineWidth = 1;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>for (let i = 0; i &lt;= w; i += scale) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.beginPath();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.moveTo(i, 0); ctx.lineTo(i, h);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.stroke();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.beginPath();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.moveTo(0, i); ctx.lineTo(w, i);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.stroke();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Axes</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.strokeStyle = '#2c3e50';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.lineWidth = 2.5;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.beginPath(); ctx.moveTo(0, center); ctx.lineTo(w, center); ctx.stroke(); // X axis</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>ctx.beginPath(); ctx.moveTo(center, 0); ctx.lineTo(center, h); ctx.stroke(); // Y axis</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Draw Shape outline if connected</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (shape &amp;&amp; points.length &gt; 1) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.strokeStyle = '#8e44ad';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.lineWidth = 2;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.beginPath();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>points.forEach((p, idx) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const cx = center + (p.x * scale);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const cy = center - (p.y * scale);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>if (idx === 0) ctx.moveTo(cx, cy);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>else ctx.lineTo(cx, cy);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.closePath();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.stroke();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Plot Points</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>points.forEach(p =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const cx = center + (p.x * scale);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const cy = center - (p.y * scale);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.fillStyle = p.color || '#e74c3c';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.beginPath();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.arc(cx, cy, 6, 0, Math.PI * 2);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.fill();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if (p.label) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ctx.fillStyle = '#111';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ctx.font = 'bold 14px Arial';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ctx.fillText(p.label, cx + 8, cy - 8);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>loadQuestion();</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
